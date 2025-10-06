@@ -35,7 +35,7 @@ public class S15652 {
         }
     }
 
-    public static void backtrack(int start, int depth, int m, int[] numbers, List<Integer> temp, List<List<Integer>> myList) {
+    private static void backtrack(int start, int depth, int m, int[] numbers, List<Integer> temp, List<List<Integer>> myList) {
         if (depth == m) {
             myList.add(new ArrayList<>(temp));
             return;
