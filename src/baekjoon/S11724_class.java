@@ -1,0 +1,63 @@
+package baekjoon;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.StringTokenizer;
+
+// 연결요소의 개수 : 백준 - 강사님 풀이
+// https://www.acmicpc.net/problem/11724
+public class S11724_class {
+    static int node;
+    static int line;
+    static List<List<Integer>> adjList = new ArrayList<>();
+    static boolean[] visited;
+
+    static int count = 0;
+
+    // 연결 요소의 개수를 출력한다.
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        node = Integer.parseInt(st.nextToken());
+        line = Integer.parseInt(st.nextToken());
+
+        for (int i = 0; i < node + 1; i++) {
+            adjList.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < line; i++) {
+            StringTokenizer nodes = new StringTokenizer(br.readLine());
+            int nodeA = Integer.parseInt(nodes.nextToken());
+            int nodeB = Integer.parseInt(nodes.nextToken());
+
+            adjList.get(nodeA).add(nodeB);
+            adjList.get(nodeB).add(nodeA);
+        }
+        for (List<Integer> list : adjList) {
+            list.sort(Comparator.naturalOrder());
+        }
+
+        visited = new boolean[node + 1];
+
+        for (int i = 1; i <= node; i++) {
+            if (!visited[i]) {
+                count++;
+                dfs(i);
+            }
+        }
+        System.out.println(count);
+    }
+
+    static void dfs(int start) {
+        visited[start] = true;
+        for (int a : adjList.get(start)) {
+            if (!visited[a]){
+                dfs(a);
+            }
+        }
+    }
+}
