@@ -1,0 +1,50 @@
+package baekjoon;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class S16401과자나눠주기 {
+    public static void main(String[] args) throws IOException {
+        // m: 조카 수, n: 과자의 수
+        // 한명의 조카에게 줄 수 있는 막대과자의 최대 길이
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int m = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(st.nextToken());
+
+        st = new StringTokenizer(br.readLine());
+        int[] snack = new int[n];
+        for (int i = 0; i < n; i++) {
+            snack[i] = Integer.parseInt(st.nextToken());
+        }
+        Arrays.sort(snack);
+
+        // 조카 m명에게 나눠줄 과자의 최대길이를 이분탐색으로 찾아야 함
+        int startIdx = 1;
+        int endIdx = snack[n - 1];
+
+        int answer = 0;
+        while (startIdx <= endIdx) {
+            int mid = (startIdx + endIdx) / 2;
+
+            int count = 0;
+
+            for (int lenght : snack) {
+                count += lenght / mid;
+            }
+
+            if (count >= m) {
+                answer = mid;
+                startIdx = mid + 1;
+            } else {
+                endIdx = mid - 1;
+            }
+        }
+
+        System.out.println(answer);
+    }
+}
